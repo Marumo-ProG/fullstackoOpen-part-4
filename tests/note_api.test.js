@@ -1,5 +1,5 @@
 const { test, after, beforeEach } = require("node:test");
-const Phone = require("../models/Phone");
+const Phone = require("../models/Blog");
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
@@ -18,16 +18,16 @@ const initialContacts = [
 ];
 
 beforeEach(async () => {
-  await Phone.deleteMany({});
-  let phoneObject = new Phone(initialContacts[0]);
-  await phoneObject.save();
-  phoneObject = new Phone(initialContacts[1]);
-  await phoneObject.save();
+  // await Phone.deleteMany({});
+  // let phoneObject = new Phone(initialContacts[0]);
+  // await phoneObject.save();
+  // phoneObject = new Phone(initialContacts[1]);
+  // await phoneObject.save();
 });
 
 test("notes are returned as json", async () => {
   await api
-    .get("/api/persons")
+    .get("/api/blogs")
     .expect(200)
     .expect("Content-Type", /application\/json/);
 });
