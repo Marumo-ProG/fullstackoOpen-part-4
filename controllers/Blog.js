@@ -47,7 +47,7 @@ app.put("/:id", async (req, res) => {
 app.post("/", async (req, res) => {
   let body = req.body;
   if (body.title && body.url) {
-    // res.status(201);
+    res.status(201);
     let blog = new Blog({
       title: body.title,
       author: body.author,

@@ -7,6 +7,22 @@ const app = require("../app");
 
 const api = supertest(app);
 
+// making testing data
+const initialContacts = [
+  {
+    title: "Wena Sweetie",
+    url: "www.ohmashu.co.za",
+    author: "Lenny",
+    likes: 15,
+  },
+];
+
+beforeEach(async () => {
+  await Blog.deleteMany({});
+  let blogModel = new Blog(initialContacts[0]);
+  await blogModel.save();
+});
+
 test("blogs returned are good", async () => {
   await api
     .get("/api/blogs")
