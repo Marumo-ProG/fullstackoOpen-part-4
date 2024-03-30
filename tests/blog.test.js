@@ -34,8 +34,18 @@ test("unique identifier named id as oposed to _id", async () => {
 
 test("HTTP Post creates a new node and checking the number of blogs", async () => {
   // making sure that data is correct and being returned
-  await api.post("/api/blogs").expect(201);
-  // .expect("Content-Type", /application\/json/);
+  await api
+    .post("/api/blogs")
+    .send({
+      title: "Lenny the ripper",
+      author: "Tracy",
+      url: "www.signaturesigns.com",
+      likes: 10,
+    })
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  // doing the post manually
 
   // checking if all the data being returned has the key id and not _id
   const response = await api.get("/api/blogs");

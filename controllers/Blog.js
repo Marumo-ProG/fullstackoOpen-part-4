@@ -64,8 +64,9 @@ app.post("/", (req, res) => {
           console.log("ERROR, blog exists in the Database");
           res.end();
         } else {
+          res.status(201);
           let blog = new Blog({
-            name: body.title,
+            title: body.title,
             author: body.author,
             likes: body.likes,
             url: body.url,
@@ -73,11 +74,10 @@ app.post("/", (req, res) => {
           blog
             .save()
             .then((data) => {
-              res.json(data);
-              res.status(201).end();
+              res.json(data).status(201).end();
             })
             .catch((err) => {
-              res.status(403);
+              res.status(403).end();
               console.log(err);
             });
         }
