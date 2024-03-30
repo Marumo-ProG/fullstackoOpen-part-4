@@ -58,33 +58,32 @@ app.put("/:id", (req, res) => {
 app.post("/", (req, res) => {
   let body = req.body;
   if (body) {
-    Blog.find({ title: body.title })
+    // Blog.find({ title: body.title })
+    //   .then((data) => {
+    // if (data.length > 0) {
+    //   console.log("ERROR, blog exists in the Database");
+    //   res.end();
+    // } else {
+    res.status(201);
+    let blog = new Blog({
+      title: body.title,
+      author: body.author,
+      likes: body.likes ? body.likes : 0, // exercise 4.11
+      url: body.url,
+    });
+    blog
+      .save()
       .then((data) => {
-        if (data.length > 0) {
-          console.log("ERROR, blog exists in the Database");
-          res.end();
-        } else {
-          res.status(201);
-          let blog = new Blog({
-            title: body.title,
-            author: body.author,
-            likes: body.likes,
-            url: body.url,
-          });
-          blog
-            .save()
-            .then((data) => {
-              res.json(data).status(201).end();
-            })
-            .catch((err) => {
-              res.status(403).end();
-              console.log(err);
-            });
-        }
+        res.json(data).status(201).end();
       })
       .catch((err) => {
+        res.status(403).end();
         console.log(err);
       });
+
+    // .catch((err) => {
+    //   console.log(err);
+    // });
   } else {
     console.log("error adding user... no data specified");
     res.status(401).end();
