@@ -104,7 +104,15 @@ test("If the title and the URL properties are missing from the body the return 4
 
 test("Testing the delete of one resource", async () => {
   // making sure that data is correct and being returned
-  await api.delete("/api/blogs/66082f750554a4155e90df38").expect(204);
+  await api.delete("/api/blogs/6608304381f884161146f53d").expect(204);
+});
+
+test("Testing the updating of one resource", async () => {
+  // making sure that data is correct and being returned
+  await api
+    .put("/api/blogs/6608304381f884161146f540")
+    .send({ likes: 1000 })
+    .expect(200);
 });
 
 after(async () => {
