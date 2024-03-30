@@ -57,7 +57,7 @@ app.put("/:id", (req, res) => {
 
 app.post("/", (req, res) => {
   let body = req.body;
-  if (body) {
+  if (body.title && body.url) {
     // Blog.find({ title: body.title })
     //   .then((data) => {
     // if (data.length > 0) {
@@ -85,8 +85,8 @@ app.post("/", (req, res) => {
     //   console.log(err);
     // });
   } else {
-    console.log("error adding user... no data specified");
-    res.status(401).end();
+    // console.log("error adding user... no data specified");
+    res.status(400).end();
   }
 });
 

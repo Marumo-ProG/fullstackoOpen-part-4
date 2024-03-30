@@ -75,3 +75,21 @@ test("Checking that if likes is missing, its default to 0", async () => {
 after(async () => {
   await mongoose.connection.close();
 });
+
+test("If the title and the URL properties are missing from the body the return 400", async () => {
+  // making sure that data is correct and being returned
+  await api
+    .post("/api/blogs")
+    .send({
+      // title: "Lenny the ripper",
+      // author: "Tracy",
+      url: "www.signaturesigns.com",
+      //likes: 10,
+    })
+    .expect(400);
+  // .expect("Content-Type", /application\/json/);
+});
+
+after(async () => {
+  await mongoose.connection.close();
+});
