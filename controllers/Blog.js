@@ -10,8 +10,8 @@ app.get("/info", (req, res) => {
 });
 app.get("/", (req, res) => {
   Blog.find({})
-    .then((notes) => {
-      res.json(notes);
+    .then((data) => {
+      res.json(data);
     })
     .catch((err) => {
       console.log(err);
