@@ -4,8 +4,10 @@ const config = require("../utils/config");
 const url = config.MONGO_URI;
 
 const blogSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  title: String,
+  author: String,
+  url: String,
+  likes: Number,
 });
 blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {

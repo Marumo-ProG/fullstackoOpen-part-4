@@ -1,7 +1,7 @@
 {
-  "name": "bloglist_part_4"
+  "name": "bloglist_part_4",
   "version": "1.0.0",
-  "description": "simple server for managing phonebook api",
+  "description": "mini server for a bloglist application that stores blog posts and their creators",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",

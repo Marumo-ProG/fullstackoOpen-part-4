@@ -2,7 +2,7 @@ const config = require("./utils/config");
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const PersonRouter = require("./controllers/Person");
+const BlogRouter = require("./controllers/Blog");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
@@ -25,7 +25,7 @@ app.use(express.static("dist"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use("/api/persons", PersonRouter);
+app.use("/api/persons", BlogRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
