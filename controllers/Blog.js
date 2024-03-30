@@ -58,12 +58,6 @@ app.put("/:id", (req, res) => {
 app.post("/", (req, res) => {
   let body = req.body;
   if (body.title && body.url) {
-    // Blog.find({ title: body.title })
-    //   .then((data) => {
-    // if (data.length > 0) {
-    //   console.log("ERROR, blog exists in the Database");
-    //   res.end();
-    // } else {
     res.status(201);
     let blog = new Blog({
       title: body.title,
@@ -80,12 +74,7 @@ app.post("/", (req, res) => {
         res.status(403).end();
         console.log(err);
       });
-
-    // .catch((err) => {
-    //   console.log(err);
-    // });
   } else {
-    // console.log("error adding user... no data specified");
     res.status(400).end();
   }
 });

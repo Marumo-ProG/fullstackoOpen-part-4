@@ -64,7 +64,6 @@ test("Checking that if likes is missing, its default to 0", async () => {
       title: "Lenny the ripper",
       author: "Tracy",
       url: "www.signaturesigns.com",
-      //likes: 10,
     })
     .expect(201)
     .expect("Content-Type", /application\/json/);
@@ -81,13 +80,10 @@ test("If the title and the URL properties are missing from the body the return 4
   await api
     .post("/api/blogs")
     .send({
-      // title: "Lenny the ripper",
-      // author: "Tracy",
       url: "www.signaturesigns.com",
       //likes: 10,
     })
     .expect(400);
-  // .expect("Content-Type", /application\/json/);
 });
 
 after(async () => {
