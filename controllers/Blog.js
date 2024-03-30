@@ -8,72 +8,54 @@ app.get("/info", (req, res) => {
     "This is a blog api to display blogs available in the bloglist application"
   );
 });
-app.get("/", (req, res) => {
-  Blog.find({})
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+app.get("/", async (req, res) => {
+  const data = await Blog.find({});
+  res.json(data).status(200).end();
 });
 
-app.get("/:id", (req, res) => {
+app.get("/:id", async (req, res) => {
   let id = req.params.id;
-  Blog.find({ _id: id })
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  data = await Blog.findById({ id });
+  if (data) {
+    res.json(data).status(200).end();
+  } else {
+    res.status(404).end();
+  }
 });
 
-app.delete("/:id", (req, res) => {
-  Blog.deleteOne({ _id: req.params.id })
-    .then((data) => {
-      console.log("blog deleted from the database");
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+app.delete("/:id", async (req, res) => {
+  await Blog.findByIdAndDelete(req.params.id);
+
   res.status(204).end();
 });
 
-app.put("/:id", (req, res) => {
+app.put("/:id", async (req, res) => {
   const body = req.body;
 
   const blog = {
-    content: body.content,
-    important: body.important,
+    title: body.title,
+    url: body.url,
+    likes: body.likes,
+    author: body.author,
   };
 
-  Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
-    .then((updatedNote) => {
-      res.json(updatedNote);
-    })
-    .catch((error) => next(error));
+  await Blog.findByIdAndUpdate(req.params.id, blog, { new: true });
+
+  res.status(200).end();
 });
 
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
   let body = req.body;
   if (body.title && body.url) {
-    res.status(201);
+    // res.status(201);
     let blog = new Blog({
       title: body.title,
       author: body.author,
       likes: body.likes ? body.likes : 0, // exercise 4.11
       url: body.url,
     });
-    blog
-      .save()
-      .then((data) => {
-        res.json(data).status(201).end();
-      })
-      .catch((err) => {
-        res.status(403).end();
-        console.log(err);
-      });
+    const data = await blog.save();
+    res.json(data).status(201).end();
   } else {
     res.status(400).end();
   }
