@@ -17,11 +17,11 @@ const initialContacts = [
   },
 ];
 
-beforeEach(async () => {
-  await Blog.deleteMany({});
-  let blogModel = new Blog(initialContacts[0]);
-  await blogModel.save();
-});
+// beforeEach(async () => {
+//   await Blog.deleteMany({});
+//   let blogModel = new Blog(initialContacts[0]);
+//   await blogModel.save();
+// });
 
 test("blogs returned are good", async () => {
   await api
@@ -100,6 +100,11 @@ test("If the title and the URL properties are missing from the body the return 4
       //likes: 10,
     })
     .expect(400);
+});
+
+test("Testing the delete of one resource", async () => {
+  // making sure that data is correct and being returned
+  await api.delete("/api/blogs/66082f750554a4155e90df38").expect(204);
 });
 
 after(async () => {
