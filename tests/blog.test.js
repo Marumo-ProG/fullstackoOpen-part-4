@@ -32,6 +32,18 @@ test("unique identifier named id as oposed to _id", async () => {
   assert.equal(number, 1);
 });
 
+test("HTTP Post creates a new node and checking the number of blogs", async () => {
+  // making sure that data is correct and being returned
+  await api.post("/api/blogs").expect(201);
+  // .expect("Content-Type", /application\/json/);
+
+  // checking if all the data being returned has the key id and not _id
+  const response = await api.get("/api/blogs");
+  const number = response.body.length;
+
+  assert.equal(number, 2);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });

@@ -57,21 +57,27 @@ app.put("/:id", (req, res) => {
 
 app.post("/", (req, res) => {
   let body = req.body;
-  if (body.name && body.number) {
-    Blog.find({ name: body.name })
+  if (body) {
+    Blog.find({ title: body.title })
       .then((data) => {
         if (data.length > 0) {
           console.log("ERROR, blog exists in the Database");
           res.end();
         } else {
-          let blog = new Blog({ name: body.name, number: body.number });
+          let blog = new Blog({
+            name: body.title,
+            author: body.author,
+            likes: body.likes,
+            url: body.url,
+          });
           blog
             .save()
             .then((data) => {
-              console.log(req.bpdy);
-              res.end("added");
+              res.json(data);
+              res.status(201).end();
             })
             .catch((err) => {
+              res.status(403);
               console.log(err);
             });
         }
@@ -81,10 +87,8 @@ app.post("/", (req, res) => {
       });
   } else {
     console.log("error adding user... no data specified");
-    res.status(401);
+    res.status(401).end();
   }
-
-  res.end();
 });
 
 module.exports = app;
