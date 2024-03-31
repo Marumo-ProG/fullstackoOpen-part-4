@@ -1,5 +1,6 @@
 const app = require("express").Router();
 const Blog = require("../models/Blog");
+const User = require("../models/User");
 
 app.get("/info", (req, res) => {
   res.contentType("html");
@@ -46,6 +47,8 @@ app.put("/:id", async (req, res) => {
 
 app.post("/", async (req, res) => {
   let body = req.body;
+
+  const user = await User.findById(body.userId);
   if (body.title && body.url) {
     res.status(201);
     let blog = new Blog({
@@ -53,8 +56,11 @@ app.post("/", async (req, res) => {
       author: body.author,
       likes: body.likes ? body.likes : 0, // exercise 4.11
       url: body.url,
+      user: user.id,
     });
     const data = await blog.save();
+    user.notes = user.blogs.concat(data._id);
+    await user.save();
     res.json(data).status(201).end();
   } else {
     res.status(400).end();
