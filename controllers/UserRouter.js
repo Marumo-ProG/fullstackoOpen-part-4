@@ -5,18 +5,28 @@ const User = require("../models/User");
 usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body;
 
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
+  if (username && password && username.length >= 3 && password.length >= 3) {
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
 
-  const user = new User({
-    username,
-    name,
-    passwordHash,
-  });
+    const user = new User({
+      username,
+      name,
+      passwordHash,
+    });
 
-  const savedUser = await user.save();
+    const savedUser = await user.save();
 
-  response.status(201).json(savedUser);
+    response.status(201).json(savedUser).end();
+  } else {
+    response
+      .status(400)
+      .json({
+        error:
+          "Please provide username and password with at least 3 digits each",
+      })
+      .end();
+  }
 });
 
 usersRouter.get("/", async (request, response) => {
