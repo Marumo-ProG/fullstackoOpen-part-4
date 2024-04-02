@@ -1,6 +1,7 @@
 const app = require("express").Router();
 const Blog = require("../models/Blog");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 // function for getting the token from the request header
 const getTokenFrom = (request) => {
@@ -34,9 +35,20 @@ app.get("/:id", async (req, res) => {
 });
 
 app.delete("/:id", async (req, res) => {
-  await Blog.findByIdAndDelete(req.params.id);
-
-  res.status(204).end();
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
+  const blog = await Blog.findById(req.params.id);
+  if (blog.user.toString() === decodedToken.id.toString()) {
+    await Blog.findByIdAndDelete(req.params.id);
+    res.status(204).end();
+  } else {
+    res
+      .status(401)
+      .json({
+        error:
+          "You are not authorized to delete this blog, you have created it",
+      })
+      .end();
+  }
 });
 
 app.put("/:id", async (req, res) => {
@@ -57,7 +69,7 @@ app.put("/:id", async (req, res) => {
 app.post("/", async (req, res) => {
   let body = req.body;
 
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
   if (!decodedToken.id) {
     return response.status(401).json({ error: "token invalid" });
   }

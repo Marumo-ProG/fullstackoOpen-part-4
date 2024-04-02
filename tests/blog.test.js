@@ -23,6 +23,9 @@ const initialContacts = [
 //   await blogModel.save();
 // });
 
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikxlbm55MjAzMCIsImlkIjoiNjYwOTA4MWEzMGU0NTRjZmYxNzJjOWMwIiwiaWF0IjoxNzEyMDgxMzQ1fQ.4y1Q_LRelB7nbaysgHChh02qVezcWn4Fi2rAnxOk6l4";
+
 test("blogs returned are good", async () => {
   await api
     .get("/api/blogs")
@@ -52,6 +55,7 @@ test("HTTP Post creates a new node and checking the number of blogs", async () =
   // making sure that data is correct and being returned
   await api
     .post("/api/blogs")
+    .set("authorization", "Bearer " + token)
     .send({
       title: "Lenny the ripper",
       author: "Tracy",
@@ -76,6 +80,7 @@ test("Checking that if likes is missing, its default to 0", async () => {
   // making sure that data is correct and being returned
   const result = await api
     .post("/api/blogs")
+    .set("authorization", "Bearer " + token)
     .send({
       title: "Lenny the ripper",
       author: "Tracy",
@@ -95,6 +100,7 @@ test("If the title and the URL properties are missing from the body the return 4
   // making sure that data is correct and being returned
   await api
     .post("/api/blogs")
+    .set("authorization", `Bearer ${token}`)
     .send({
       url: "www.signaturesigns.com",
       //likes: 10,
