@@ -84,7 +84,7 @@ app.post("/", async (req, res) => {
       user: user.id,
     });
     const data = await blog.save();
-    user.notes = user.blogs.concat(data._id);
+    user.notes = user.blogs.push(data._id);
     await user.save();
     res.json(data).status(201).end();
   } else {

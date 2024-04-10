@@ -34,4 +34,12 @@ usersRouter.get("/", async (request, response) => {
   response.json(users);
 });
 
+usersRouter.get("/:id", async (request, response) => {
+  userId = request.params.id;
+
+  // fetching the user
+  const user = await User.findById(userId)
+  response.json(user)
+})
+
 module.exports = usersRouter;
